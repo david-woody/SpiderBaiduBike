@@ -1,5 +1,4 @@
 import pymongo
-import datetime
 
 
 class DBclient(object):

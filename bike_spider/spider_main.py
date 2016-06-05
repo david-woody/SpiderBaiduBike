@@ -7,8 +7,6 @@ class SpiderMain(object):
         self.downloader = html_downloader.HtmlDownloader()
         self.parser = html_parser.HtmlParser()
         self.outputer = html_outputer.HtmlOutputer()
-        self.dbhelper = db_helper.DBclient()
-        self.dbcollection = self.dbhelper.get_collection("baidu")
 
     def craw(self, root_url):
         count = 1
@@ -20,16 +18,18 @@ class SpiderMain(object):
                 html_cont = self.downloader.download(new_url)
                 new_urls, new_data = self.parser.parse(new_url, html_cont)
                 self.urls.add_new_urls(new_urls)
+                self.outputer.collect_data(new_data)
                 # self.outputer.collect_data(new_data)
-                if new_data is None:
-                    return
-                self.dbhelper.insert_one_doc(self.dbcollection,new_data)
-                if count == 1000:
+                # if new_data is None:
+                #     return
+                # self.dbhelper.insert_one_doc(self.dbcollection,new_data)
+                if count == 100:
                     break
                 count = count + 1
             except:
                 print "craw failed"
-        self.outputer.output_html()
+        # self.outputer.output_html()
+        self.outputer.output_dbs()
 
 
 if __name__ == "__main__":

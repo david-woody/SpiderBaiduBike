@@ -1,6 +1,12 @@
+from bike_spider import db_helper
+
+
 class HtmlOutputer(object):
     def __init__(self):
         self.datas = []
+        self.dbhelper = db_helper.DBclient()
+        self.dbcollection = self.dbhelper.get_collection("baidu")
+
 
     def collect_data(self, data):
         if data is None:
@@ -21,3 +27,8 @@ class HtmlOutputer(object):
         fout.write("</table>")
         fout.write("</body>")
         fout.write("</html>")
+
+
+    def output_dbs(self):
+        for data in self.datas:
+            self.dbhelper.insert_one_doc(self.dbcollection, data)
