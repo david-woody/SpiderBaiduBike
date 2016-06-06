@@ -23,7 +23,7 @@ class SpiderMain(object):
                 # if new_data is None:
                 #     return
                 # self.dbhelper.insert_one_doc(self.dbcollection,new_data)
-                if count == 100:
+                if count == 1000:
                     break
                 count = count + 1
             except:
